@@ -4,10 +4,10 @@
 #include <iostream>
 #include <random>
 
-#define OPEN 0
+#define CLEAR 0
 #define WALL 1
 #define FOOD 2
-#define BLOCKSIZE 40
+#define BLOCKSIZE 40 // (20x20)
 
 class Menu
 {
@@ -76,35 +76,52 @@ public:
 			else if (i % m_row == 0)m_board[i] = WALL; // Left wall
 			else if (i % m_row == m_row-1)m_board[i] = WALL; // Right wall
 			else if (i > m_full - m_row)m_board[i] = WALL; // Last row wall
-			else m_board[i] = OPEN;
+			else m_board[i] = CLEAR;
 		}
-		add_food(20);
+		add_food(10);
 	};
 
-	GameBlock get_box(int idx)
+	void draw(sf::RenderWindow* window)
 	{
-		int box_value = m_board[idx];
-		switch (box_value)
+		int row;
+		int col;
+		GameBlock block;
+
+		for (int i = 0; i < m_full; i++)
 		{
-		case WALL: return wall;
-		case OPEN: return open;
-		case FOOD: return food;
-		default: break;
+			row = i / m_row;
+			col = i % m_row;
+			switch (m_board[i])
+			{
+			case WALL:
+				block = wall;
+				break;
+			case CLEAR:
+				block = open;
+				break;
+			case FOOD:
+				block = food;
+				break;
+			default:
+				break;
+			}
+			block.setPosition(col*BLOCKSIZE, row*BLOCKSIZE);
+			window->draw(block);
 		}
 	}
 
+private:
 	void add_food(int num)
 	{
-		for(int i = 0;i < num+1;i++)
+		for (int i = 0; i < num + 1; i++)
 		{
 			int j = 0;
 			std::mt19937 rng;
 			rng.seed(std::random_device()());
 			std::uniform_int_distribution<std::mt19937::result_type> dist6(1, m_full);
-			while (m_board[j] != 0){ j =  dist6(rng); } // Find empty space
+			while (m_board[j] != CLEAR) { j = dist6(rng); } // Find empty space
 			m_board[j] = FOOD;
 		}
 	};
-private:
 	bool m_randomizer(int prob) { return (rand() % 100) < prob; }
 };

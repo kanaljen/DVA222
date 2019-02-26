@@ -9,9 +9,6 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(SIZE, SIZE), "Snake");
 	window.setFramerateLimit(FRAMERATE);
 	Level level(SIZE);
-	int row;
-	int col;
-	GameBlock block;
 
 	while (window.isOpen())
 	{
@@ -21,16 +18,8 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
 		window.clear();
-		for(int i = 0; i < int(pow(SIZE / BLOCKSIZE, 2)); i++)
-		{
-			block = level.get_box(i);
-			row = i / (SIZE / BLOCKSIZE);
-			col = i % (SIZE / BLOCKSIZE);
-			block.setPosition(col*BLOCKSIZE, row*BLOCKSIZE);
-			window.draw(block);
-		}
+		level.draw(&window);
 		window.display();
 	}
 
