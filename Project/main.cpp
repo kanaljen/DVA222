@@ -1,14 +1,16 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "classes.h"
+#include "game.h"
 #define FRAMERATE 10
-#define SIZE 800
+
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SIZE, SIZE), "Snake");
 	window.setFramerateLimit(FRAMERATE);
-	Level level(SIZE);
+	Level level;
+	Snake snake(1);
+	snake.init(&level);
 
 	while (window.isOpen())
 	{
@@ -20,6 +22,7 @@ int main()
 		}
 		window.clear();
 		level.draw(&window);
+		snake.draw(&window);
 		window.display();
 	}
 
