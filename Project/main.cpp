@@ -2,17 +2,16 @@
 #include <SFML/Graphics.hpp>
 #include "classes.h"
 #define FRAMERATE 10
+#define SIZE 800
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 800), "Snake");
+	sf::RenderWindow window(sf::VideoMode(SIZE, SIZE), "Snake");
 	window.setFramerateLimit(FRAMERATE);
-	std::vector<sf::RectangleShape*> board_objects;
-	std::vector<GameRectangle*> dynamic_objects;
-	board_objects.push_back(new sf::RectangleShape(sf::Vector2f(1000, 10)));
-	//board_objects.push_back(new sf::RectangleShape(sf::Vector2f(1000, 1000)));
-	//board_objects.push_back(new sf::RectangleShape(sf::Vector2f(1000, 1000)));
-
+	Level level(SIZE);
+	int row;
+	int col;
+	GameBlock block;
 
 	while (window.isOpen())
 	{
@@ -24,7 +23,14 @@ int main()
 		}
 
 		window.clear();
-		for (int i = 0; i < board_objects.size(); i++)window.draw(*board_objects[i]);
+		for(int i = 0; i < int(pow(SIZE / BLOCKSIZE, 2)); i++)
+		{
+			block = level.get_box(i);
+			row = i / (SIZE / BLOCKSIZE);
+			col = i % (SIZE / BLOCKSIZE);
+			block.setPosition(col*BLOCKSIZE, row*BLOCKSIZE);
+			window.draw(block);
+		}
 		window.display();
 	}
 
