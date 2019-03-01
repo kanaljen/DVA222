@@ -1,30 +1,18 @@
-#include <vector>
 #include <SFML/Graphics.hpp>
-#include "game.h"
-#define FRAMERATE 10
-
+#include "Engine.h"
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(SIZE, SIZE), "Snake");
-	window.setFramerateLimit(FRAMERATE);
-	Level level;
-	Snake snake(1);
-	snake.init(&level);
+	Engine game;
 
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		window.clear();
-		level.draw(&window);
-		snake.draw(&window);
-		window.display();
-	}
-
+	game.start();
+	
 	return 0;
 }
+
+/*
+TODO:
+	RenderPipeline för Engine::Draw
+	Meny (eventuellt implementera en state macjine i update eller draw)
+	Få maskarna att röra sig
+*/
