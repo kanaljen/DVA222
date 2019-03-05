@@ -65,11 +65,12 @@ void GamePlay::handleInput(Event event)
 {
 	switch (event.type)
 	{
-	case Event::Closed:
-		setNextState(TERMINATE);
-		break;
-	case Event::KeyPressed:
+		case Event::Closed:
+			setNextState(TERMINATE);
+			break;
+		case Event::KeyPressed:
 			handleKeys(event.key.code);
+			break;
 		default:
 			break;
 	}
@@ -80,7 +81,8 @@ void GamePlay::handleKeys(int key)
 	switch (key)
 	{
 	case Keyboard::Escape:
-		setNextState(GAMEMENU);
+		setNextState(TOGAMEMENU);
+		std::cout << "ESC" << std::endl;
 		break;
 		// PLAYER 1
 	case Keyboard::W:

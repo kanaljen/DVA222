@@ -1,7 +1,7 @@
 #include "States.hpp"
 #include <iostream>
 
-#define MNURESUME		1
+#define MNURESUME	1
 #define MNUEXIT		2
 
 #define MENUUP		2
@@ -12,10 +12,10 @@ GameMenu::GameMenu(Engine& engine) :
 	m_selection(0)
 {
 	FloatRect textRect;
-	int titleSize = 200;
-	int menuSize = 100;
+	int titleSize = SIZE/4;
+	int menuSize = SIZE/8;
 
-	if (!m_font.loadFromFile("porcelain.ttf"))
+	if (!m_font.loadFromFile("fonts/porcelain.ttf"))
 		throw std::invalid_argument("INVALID FONT!");
 
 	// Title 
@@ -72,11 +72,11 @@ void GameMenu::handleInput(Event event)
 		case Keyboard::Return:
 			switch (m_selection)
 			{
-			case RESUME:
-				setNextState(RESUME);
+			case MNURESUME:
+				setNextState(RESUMEGAME);
 				break;
 			case MNUEXIT:
-				setNextState(BACKTOTOPMENU);
+				setNextState(BACKTOTOP);
 				break;
 			default:
 				break;

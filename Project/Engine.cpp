@@ -25,7 +25,7 @@ void Engine::start()
 		{
 			sleep(milliseconds(50) - elapsed);
 		}
-		if(m_nextTransition != 0)makeTransition(m_nextTransition);
+		if(m_nextTransition != NOTRANSITION)makeTransition(m_nextTransition);
 		m_current_state = m_next_state;
 	}
 }
@@ -62,7 +62,7 @@ void Engine::makeTransition(int transition)
 {
 	switch (transition)
 	{
-	case BACKTOTOPMENU:
+	case BACKTOTOP:
 		delete m_gamemenu;
 		delete m_gameplay;
 		m_topmenu = new TopMenu(*this);
@@ -83,12 +83,14 @@ void Engine::makeTransition(int transition)
 		m_gameplay = new GamePlay(*this, 3);
 		m_next_state = m_gameplay;
 		break;
-	case GAMEMENU:
+	case TOGAMEMENU:
 		m_gamemenu = new GameMenu(*this);
 		m_next_state = m_gamemenu;
-	case RESUME:
+		break;
+	case RESUMEGAME:
 		delete m_gamemenu;
 		m_next_state = m_gameplay;
+		break;
 	case TERMINATE:
 		m_window.close();
 		break;

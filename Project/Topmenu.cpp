@@ -17,7 +17,7 @@ TopMenu::TopMenu(Engine& engine):
 	int titleSize = 200;
 	int menuSize = 100;
 
-	if (!m_font.loadFromFile("porcelain.ttf"))
+	if (!m_font.loadFromFile("fonts/porcelain.ttf"))
 		throw std::invalid_argument("INVALID FONT!");
 
 	// Title 

@@ -6,13 +6,13 @@
 #include "States.hpp"
 
 // STATES TRANSITIONS
-#define BACKTOTOPMENU	0
-#define PLAYONE			1
-#define PLAYTWO			2
-#define PLAYTHREE		3
-#define GAMEMENU		4
-#define RESUME			5
-#define BACKTOTOP		6
+#define NOTRANSITION	0
+#define BACKTOTOP		1
+#define PLAYONE			2
+#define PLAYTWO			3
+#define PLAYTHREE		4
+#define TOGAMEMENU		5
+#define RESUMEGAME		6
 #define TERMINATE		-1
 
 using namespace sf;
