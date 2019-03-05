@@ -61,12 +61,12 @@ void GamePlay::update()
 	for (GameObject* object : m_dynamicObjects)pushToRenderQ(object);
 }
 
-void GamePlay::readInput(Event event)
+void GamePlay::handleInput(Event event)
 {
 	switch (event.type)
 	{
 	case Event::Closed:
-		setNextState(EXIT);
+		setNextState(TERMINATE);
 		break;
 	case Event::KeyPressed:
 			handleKeys(event.key.code);
@@ -80,7 +80,7 @@ void GamePlay::handleKeys(int key)
 	switch (key)
 	{
 	case Keyboard::Escape:
-		setNextState(EXIT);
+		setNextState(GAMEMENU);
 		break;
 		// PLAYER 1
 	case Keyboard::W:

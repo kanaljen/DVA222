@@ -1,9 +1,8 @@
 #include "Engine.hpp"
-#include <iostream>
+
 
 Engine::Engine()
 {
-	m_gameplay = new GamePlay(*this, 1);
 	m_topmenu = new TopMenu(*this);
 	m_current_state = m_topmenu;
 	m_next_state = m_topmenu;
@@ -26,17 +25,15 @@ void Engine::start()
 		{
 			sleep(milliseconds(50) - elapsed);
 		}
+		if(m_nextTransition != 0)makeTransition(m_nextTransition);
 		m_current_state = m_next_state;
 	}
 }
 
 void Engine::readInput()
 {
-	Event event;
-	while (m_window.pollEvent(event)) 
-	{
-		m_current_state->readInput(event);
-	}
+	m_nextTransition = 0;
+	m_current_state->readInput();
 }
 
 void Engine::update()
@@ -56,27 +53,44 @@ void Engine::draw()
     m_window.display();
 }
 
-void Engine::setNextState(int state)
+void Engine::requestTransition(int transition) 
 {
-	switch (state)
+	m_nextTransition = transition;
+}
+
+void Engine::makeTransition(int transition)
+{
+	switch (transition)
 	{
-	case TOPMENU:
+	case BACKTOTOPMENU:
+		delete m_gamemenu;
+		delete m_gameplay;
+		m_topmenu = new TopMenu(*this);
+		m_next_state = m_topmenu;
 		break;
-	case ONEPLAYER:
+	case PLAYONE:
+		delete m_topmenu;
 		m_gameplay = new GamePlay(*this, 1);
 		m_next_state = m_gameplay;
 		break;
-	case TWOPLAYER:
+	case PLAYTWO:
+		delete m_topmenu;
 		m_gameplay = new GamePlay(*this, 2);
 		m_next_state = m_gameplay;
 		break;
-	case THREEPLAYER:
+	case PLAYTHREE:
+		delete m_topmenu;
 		m_gameplay = new GamePlay(*this, 3);
 		m_next_state = m_gameplay;
 		break;
-	case EXIT:
+	case GAMEMENU:
+		m_gamemenu = new GameMenu(*this);
+		m_next_state = m_gamemenu;
+	case RESUME:
+		delete m_gamemenu;
+		m_next_state = m_gameplay;
+	case TERMINATE:
 		m_window.close();
-		exit(1);
 		break;
 	default:
 		m_next_state = m_current_state;

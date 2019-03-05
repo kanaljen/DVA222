@@ -1,9 +1,9 @@
 #include "States.hpp"
 #include <iostream>
 
-#define ONPLAYER	1
-#define TWPLAYER	2
-#define THPLAYER	3
+#define MNUONPLAYER	1
+#define MNUTWPLAYER	2
+#define MNUTHPLAYER	3
 #define MNUEXIT		4
 
 #define MENUUP		2
@@ -28,28 +28,28 @@ TopMenu::TopMenu(Engine& engine):
 	m_title.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_title.setPosition(SIZE / 2, 0);
 	// One Player
-	m_oneplayer.setString("1 Player");
+	m_oneplayer.setString("1 player");
 	m_oneplayer.setFont(m_font);
 	m_oneplayer.setCharacterSize(menuSize);
 	textRect = m_oneplayer.getLocalBounds();
 	m_oneplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_oneplayer.setPosition(SIZE / 2, 2 * (SIZE / 8));
 	// Two Players
-	m_twoplayer.setString("2 Players");
+	m_twoplayer.setString("2 players");
 	m_twoplayer.setFont(m_font);
 	m_twoplayer.setCharacterSize(menuSize);
 	textRect = m_twoplayer.getLocalBounds();
 	m_twoplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_twoplayer.setPosition(SIZE / 2, 3 * (SIZE / 8));
 	// Three Players
-	m_threeplayer.setString("3 Players");
+	m_threeplayer.setString("3 players");
 	m_threeplayer.setFont(m_font);
 	m_threeplayer.setCharacterSize(menuSize);
 	textRect = m_threeplayer.getLocalBounds();
 	m_threeplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_threeplayer.setPosition(SIZE / 2, 4 * (SIZE / 8));
 	// Exit 
-	m_exit.setString("Exit");
+	m_exit.setString("exit game");
 	m_exit.setFont(m_font);
 	m_exit.setCharacterSize(menuSize);
 	textRect = m_exit.getLocalBounds();
@@ -71,12 +71,12 @@ void TopMenu::update()
 	for (Text* text : m_menuObjects)pushToRenderQ(text);
 }
 
-void TopMenu::readInput(Event event)
+void TopMenu::handleInput(Event event)
 {
 	switch (event.type)
 	{
 	case Event::Closed:
-		setNextState(EXIT);
+		setNextState(TERMINATE);
 		break;
 	case Event::KeyPressed:
 		switch (event.key.code)
@@ -90,17 +90,17 @@ void TopMenu::readInput(Event event)
 		case Keyboard::Return:
 			switch (m_selection)
 			{
-			case ONEPLAYER:
-				setNextState(ONEPLAYER);
+			case MNUONPLAYER:
+				setNextState(PLAYONE);
 				break;
-			case TWPLAYER:
-				setNextState(TWOPLAYER);
+			case MNUTWPLAYER:
+				setNextState(PLAYTWO);
 				break;
-			case THPLAYER:
-				setNextState(THREEPLAYER);
+			case MNUTHPLAYER:
+				setNextState(PLAYTHREE);
 				break;
 			case MNUEXIT:
-				setNextState(EXIT);
+				setNextState(TERMINATE);
 				break;
 			default:
 				break;
@@ -138,13 +138,13 @@ void TopMenu::updateTextColor()
 
 	switch (m_selection)
 	{
-	case ONPLAYER:
+	case MNUONPLAYER:
 		m_oneplayer.setFillColor(Color::Yellow);
 		break;
-	case TWPLAYER:
+	case MNUTWPLAYER:
 		m_twoplayer.setFillColor(Color::Yellow);
 		break;
-	case THPLAYER:
+	case MNUTHPLAYER:
 		m_threeplayer.setFillColor(Color::Yellow);
 		break;
 	case MNUEXIT:
