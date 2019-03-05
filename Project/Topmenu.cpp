@@ -23,42 +23,44 @@ TopMenu::TopMenu(Engine& engine):
 	// Title 
 	m_title.setString("SNAKE");
 	m_title.setFont(m_font);
+	m_title.setCharacterSize(titleSize);
 	textRect = m_title.getLocalBounds();
 	m_title.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_title.setCharacterSize(titleSize);
 	m_title.setPosition(SIZE / 2, 0);
 	// One Player
 	m_oneplayer.setString("1 Player");
 	m_oneplayer.setFont(m_font);
+	m_oneplayer.setCharacterSize(menuSize);
 	textRect = m_oneplayer.getLocalBounds();
 	m_oneplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_oneplayer.setCharacterSize(menuSize);
 	m_oneplayer.setPosition(SIZE / 2, 2 * (SIZE / 8));
 	// Two Players
 	m_twoplayer.setString("2 Players");
 	m_twoplayer.setFont(m_font);
+	m_twoplayer.setCharacterSize(menuSize);
 	textRect = m_twoplayer.getLocalBounds();
 	m_twoplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_twoplayer.setCharacterSize(menuSize);
 	m_twoplayer.setPosition(SIZE / 2, 3 * (SIZE / 8));
 	// Three Players
 	m_threeplayer.setString("3 Players");
 	m_threeplayer.setFont(m_font);
+	m_threeplayer.setCharacterSize(menuSize);
 	textRect = m_threeplayer.getLocalBounds();
 	m_threeplayer.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_threeplayer.setCharacterSize(menuSize);
 	m_threeplayer.setPosition(SIZE / 2, 4 * (SIZE / 8));
 	// Exit 
 	m_exit.setString("Exit");
 	m_exit.setFont(m_font);
+	m_exit.setCharacterSize(menuSize);
 	textRect = m_exit.getLocalBounds();
 	m_exit.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_exit.setCharacterSize(menuSize);
 	m_exit.setPosition(SIZE / 2, 5 * (SIZE / 8));
 }
 
 void TopMenu::update()
 {
+	m_menuObjects.clear();
+
 	updateTextColor();
 	m_menuObjects.push_back(&m_title);
 	m_menuObjects.push_back(&m_oneplayer);
@@ -81,19 +83,25 @@ void TopMenu::readInput(Event event)
 		{
 		case Keyboard::Up:
 			moveMenu(MENUUP);
-			std::cout << "UP" << std::endl;
 			break;
 		case Keyboard::Down:
 			moveMenu(MENUDOWN);
-			std::cout << "DOWN" << std::endl;
 			break;
 		case Keyboard::Return:
 			switch (m_selection)
 			{
 			case ONEPLAYER:
+				setNextState(ONEPLAYER);
+				break;
 			case TWPLAYER:
+				setNextState(TWOPLAYER);
+				break;
 			case THPLAYER:
+				setNextState(THREEPLAYER);
+				break;
 			case MNUEXIT:
+				setNextState(EXIT);
+				break;
 			default:
 				break;
 			}
