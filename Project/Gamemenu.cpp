@@ -19,21 +19,21 @@ GameMenu::GameMenu(Engine& engine) :
 		throw std::invalid_argument("INVALID FONT!");
 
 	// Title 
-	m_title.setString("Game Paused");
+	m_title.setString("PAUSED");
 	m_title.setFont(m_font);
 	m_title.setCharacterSize(titleSize);
 	textRect = m_title.getLocalBounds();
 	m_title.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_title.setPosition(SIZE / 2, 0);
-	// One Player
+	// Resume game
 	m_resume.setString("resume game");
 	m_resume.setFont(m_font);
 	m_resume.setCharacterSize(menuSize);
 	textRect = m_resume.getLocalBounds();
 	m_resume.setOrigin(textRect.left + textRect.width / 2.0f, 0);
 	m_resume.setPosition(SIZE / 2, 2 * (SIZE / 8));
-	// Two Players
-	m_exit.setString("exit game");
+	// Quit current game
+	m_exit.setString("quit current game");
 	m_exit.setFont(m_font);
 	m_exit.setCharacterSize(menuSize);
 	textRect = m_exit.getLocalBounds();

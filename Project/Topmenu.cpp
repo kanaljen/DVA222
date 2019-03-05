@@ -14,8 +14,8 @@ TopMenu::TopMenu(Engine& engine):
 	m_selection(0)
 {
 	FloatRect textRect;
-	int titleSize = 200;
-	int menuSize = 100;
+	int titleSize = SIZE/4;
+	int menuSize = SIZE/8;
 
 	if (!m_font.loadFromFile("fonts/porcelain.ttf"))
 		throw std::invalid_argument("INVALID FONT!");
