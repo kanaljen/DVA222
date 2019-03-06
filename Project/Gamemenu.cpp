@@ -1,5 +1,4 @@
 #include "States.hpp"
-#include <iostream>
 
 #define MNURESUME	1
 #define MNUEXIT		2
@@ -24,26 +23,28 @@ GameMenu::GameMenu(Engine& engine) :
 	m_title.setCharacterSize(titleSize);
 	textRect = m_title.getLocalBounds();
 	m_title.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_title.setPosition(SIZE / 2, 0);
+	m_title.setPosition(SIZE / 2, SIZE / 8);
 	// Resume game
 	m_resume.setString("resume game");
 	m_resume.setFont(m_font);
 	m_resume.setCharacterSize(menuSize);
 	textRect = m_resume.getLocalBounds();
 	m_resume.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_resume.setPosition(SIZE / 2, 2 * (SIZE / 8));
+	m_resume.setPosition(SIZE / 2, 3 * (SIZE / 8));
 	// Quit current game
 	m_exit.setString("quit current game");
 	m_exit.setFont(m_font);
 	m_exit.setCharacterSize(menuSize);
 	textRect = m_exit.getLocalBounds();
 	m_exit.setOrigin(textRect.left + textRect.width / 2.0f, 0);
-	m_exit.setPosition(SIZE / 2, 3 * (SIZE / 8));
+	m_exit.setPosition(SIZE / 2, 4 * (SIZE / 8));
 }
 
 void GameMenu::update()
 {
 	m_menuObjects.clear();
+
+    pushToRenderQ(&background);
 
 	updateTextColor();
 	m_menuObjects.push_back(&m_title);

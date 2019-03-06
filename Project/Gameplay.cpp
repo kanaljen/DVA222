@@ -12,6 +12,8 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 	m_noplayers(noPlayers),
 	m_level(noPlayers)
 {
+
+	m_levelObjects.push_back(&background);
 	GameObject* wall;
 	for (int i = 0; i<FULLSIZE; i++)
 	{
@@ -82,7 +84,6 @@ void GamePlay::handleKeys(int key)
 	{
 	case Keyboard::Escape:
 		setNextState(TOGAMEMENU);
-		std::cout << "ESC" << std::endl;
 		break;
 		// PLAYER 1
 	case Keyboard::W:
@@ -137,4 +138,10 @@ void GamePlay::updateSnakes()
 		// snake.move(), AKA modifie the board
 		// add snakesegment to renderq
 	}
+}
+
+void GamePlay::drawSnakes()
+{
+
+    
 }
