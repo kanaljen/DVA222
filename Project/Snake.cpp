@@ -29,11 +29,12 @@ Snake::Snake(int player,Level* level):
 }
 
 bool Snake::tryMove(int newpos) {
+    // NOKNOW
     return false;
 }
 
 void Snake::draw() {
-
+    //
 }
 
 void Snake::move() {
