@@ -120,13 +120,6 @@ public:
     SnakeStraight(int player, int position, float rotation);
 };
 
-class Snake
-{
-public:
-    Snake(int player);
-};
-
-
 class Level 
 {
 	int* m_board;
