@@ -7,11 +7,13 @@
 
 class Snake
 {
-	const int player;
+	const int m_player;
+	Level* m_level;
 	std::vector<int> m_body;
 public:
-	Snake(int player);
+	Snake(int player,Level* level);
 	bool tryMove(int newpos);
+	void draw();
 private:
 	void move();
 	void update();

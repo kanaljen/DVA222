@@ -12,10 +12,12 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 	m_noplayers(noPlayers),
 	m_level(noPlayers)
 {
+
+	m_levelObjects.push_back(&background);
 	GameObject* wall;
 	for (int i = 0; i<FULLSIZE; i++)
 	{
-		if (m_level.get_tile(i) == WALL)
+		if (m_level.getTile(i) == WALL)
 		{
 			m_levelObjects.push_back(new Wall);
 			wall = m_levelObjects.back();
@@ -36,7 +38,7 @@ void GamePlay::update()
 	GameObject* object;
 	for (int i = ROW; i<FULLSIZE - ROW; i++)
 	{
-		switch (m_level.get_tile(i))
+		switch (m_level.getTile(i))
 		{
 		case STDFOOD:
 			m_dynamicObjects.push_back(new StandardFood);
@@ -82,7 +84,6 @@ void GamePlay::handleKeys(int key)
 	{
 	case Keyboard::Escape:
 		setNextState(TOGAMEMENU);
-		std::cout << "ESC" << std::endl;
 		break;
 		// PLAYER 1
 	case Keyboard::W:
@@ -137,4 +138,10 @@ void GamePlay::updateSnakes()
 		// snake.move(), AKA modifie the board
 		// add snakesegment to renderq
 	}
+}
+
+void GamePlay::drawSnakes()
+{
+
+    
 }

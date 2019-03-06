@@ -14,44 +14,86 @@ int randomizer(int max)
 
 using namespace sf;
 
-GameObject::GameObject() :
-	RectangleShape(Vector2f(BLOCKSIZE, BLOCKSIZE))
+GameObject::GameObject()
 {
+    setTextureRect(IntRect(0, 0, BLOCKSIZE, BLOCKSIZE));
+}
+
+Background::Background()
+{
+    setTextureRect(IntRect(0, 0, SIZE, SIZE));
+    texture.setRepeated(true);
+    texture.loadFromFile("images/grass.png");
+    setTexture(texture);
 }
 
 Wall::Wall()
 {
-	setFillColor(Color(71, 71, 71));
+    texture.loadFromFile("images/brick.png");
+    setTexture(texture);
 }
 
 Food::Food(int value):
 	m_value(value)
 {
+    texture.loadFromFile("images/food.png");
+    setTexture(texture);
 }
 
 ValuableFood::ValuableFood() :
 	Food(5)
 {
-	setFillColor(Color(255, 165, 0));
 }
 
 StandardFood::StandardFood():
 	Food(1)
 {
-	setFillColor(Color(255, 245, 114));
 }
 
 FastFood::FastFood() :
 	Food(0)
 {
-	setFillColor(Color(255, 67, 0));
 }
 
-SnakeSegment::SnakeSegment(int player)
+SnakeSegment::SnakeSegment(int player, int position, float rotation):
+    m_player(player),
+    m_position(position),
+    m_rotation(rotation)
 {
-	setFillColor(Color::Blue);
 }
 
+int SnakeSegment::getPosition()
+{
+    return m_position;
+}
+
+SnakeHead::SnakeHead(int player, int position, float rotation):
+        SnakeSegment(player,position,rotation)
+{
+    texture.loadFromFile("images/snake_head.png");
+    setTexture(texture);
+}
+
+SnakeTail::SnakeTail(int player, int position, float rotation):
+        SnakeSegment(player,position,rotation)
+{
+    texture.loadFromFile("images/snake_tail.png");
+    setTexture(texture);
+}
+
+SnakeBend::SnakeBend(int player, int position, float rotation):
+        SnakeSegment(player,position,rotation)
+{
+    texture.loadFromFile("images/snake_bend.png");
+    setTexture(texture);
+}
+
+SnakeStraight::SnakeStraight(int player, int position, float rotation):
+        SnakeSegment(player,position,rotation)
+{
+    texture.loadFromFile("images/snake_straight.png");
+    setTexture(texture);
+}
 
 Level::Level(int players)
 {
@@ -65,27 +107,34 @@ Level::Level(int players)
         else if (i > FULLSIZE - ROW)m_board[i] = WALL;    // Last row wall
         else m_board[i] = CLEAR;
     }
-    add_food(5);
+    addFood(5);
 }
 
-int Level::get_tile(int idx)
+int Level::getTile(int idx)
 {
     return m_board[idx];
 }
 
-void Level::add_food(int num)
+void Level::addFood(int num)
 {
     for (int i = 0; i < num; i++)
     {
-        int j = 0;
-        while (m_board[j] != CLEAR)
-        {
-            j = randomizer(FULLSIZE);
-        }
+        int j = getEmptyTile();
+
         if (randomizer(100) < 10)
         {
             m_board[j] = randomizer(100) < 50 ? VALUEFOOD : FASTFOOD;
         }
         else m_board[j] = STDFOOD;
     }
+}
+
+int Level::getEmptyTile()
+{
+    int j = 0;
+    while (m_board[j] != CLEAR)
+    {
+        j = randomizer(FULLSIZE);
+    }
+    return j;
 }

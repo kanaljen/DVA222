@@ -5,6 +5,7 @@
 #include <vector>
 #include "GameObjects.hpp"
 #include "Engine.hpp"
+#include "Snake.hpp"
 
 using namespace sf;
 class Engine;
@@ -20,6 +21,7 @@ public:
 	virtual void handleInput(Event event) = 0;
 	void readInput();
 	void setNextState(int state);
+	Background background;
 };
 
 class GamePlay: public GameState
@@ -29,12 +31,14 @@ class GamePlay: public GameState
 	int m_input[4];
     std::vector<GameObject*> m_dynamicObjects;
     std::vector<GameObject*> m_levelObjects;
+    //std::vector<Snake*> m_snakes;
 public:
 	GamePlay(Engine& engine,int noPlayers);
 	void update() override;
     void handleInput(Event event) override;
 	void handleKeys(int key);
 	void updateSnakes();
+	void drawSnakes();
 };
 
 class TopMenu: public GameState

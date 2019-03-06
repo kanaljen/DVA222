@@ -21,11 +21,17 @@
 #define SNAKE2		12
 #define SNAKE3		13
 
-// SNAKE DIRECTIONS
-#define UP		1
-#define RIGHT	2
-#define DOWN	3
-#define LEFT	4
+// DIRECTIONS
+#define UP		0
+#define RIGHT	1
+#define DOWN	2
+#define LEFT	3
+
+// SNAKE BEND ROTATION
+#define DOWNLEFT    1
+#define LEFTUP      2
+#define UPRIGHT     3
+#define RIGHTDOWN   4
 
 int randomizer(int max);
 
@@ -33,11 +39,18 @@ using namespace sf;
 
 
 // Virtual block class of size BLOCKSIZExBLOCKSIZE
-class GameObject : public RectangleShape
+class GameObject : public Sprite
 {
 public:
+	Texture texture;
     GameObject();
     //virtual void collision(Snake* snake) = 0
+};
+
+class Background : public GameObject
+{
+public:
+	Background();
 };
 
 // Wall block class
@@ -75,14 +88,37 @@ public:
 
 class SnakeSegment : public GameObject
 {
+    const int m_player;
+    int m_position;
+    int m_rotation;
 public:
-	SnakeSegment(int player);
+	SnakeSegment(int player,int position, float rotation);
+	int getPosition();
 };
 
-class Snake
+class SnakeHead : public SnakeSegment
 {
+public:
+    SnakeHead(int player, int position, float rotation);
 };
 
+class SnakeTail : public SnakeSegment
+{
+public:
+    SnakeTail(int player, int position, float rotation);
+};
+
+class SnakeBend : public SnakeSegment
+{
+public:
+    SnakeBend(int player, int position, float rotation);
+};
+
+class SnakeStraight : public SnakeSegment
+{
+public:
+    SnakeStraight(int player, int position, float rotation);
+};
 
 class Level 
 {
@@ -90,6 +126,7 @@ class Level
 
 public:
 	Level(int players);
-	int get_tile(int idx);
-	void add_food(int num);
+	int getTile(int idx);
+	void addFood(int num);
+	int getEmptyTile();
 };

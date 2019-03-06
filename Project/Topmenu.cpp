@@ -61,6 +61,8 @@ void TopMenu::update()
 {
 	m_menuObjects.clear();
 
+	pushToRenderQ(&background);
+
 	updateTextColor();
 	m_menuObjects.push_back(&m_title);
 	m_menuObjects.push_back(&m_oneplayer);
