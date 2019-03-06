@@ -1,7 +1,11 @@
 
 #include "Snake.hpp"
 
-Snake::Snake(int player) {
+Snake::Snake(int player,Level* level):
+    m_player(player),
+    m_level(level)
+{
+    int rand = randomizer(4);
 
 }
 

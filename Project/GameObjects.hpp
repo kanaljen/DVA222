@@ -126,6 +126,7 @@ class Level
 
 public:
 	Level(int players);
-	int get_tile(int idx);
-	void add_food(int num);
+	int getTile(int idx);
+	void addFood(int num);
+	int getEmptyTile();
 };

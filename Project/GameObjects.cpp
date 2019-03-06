@@ -107,27 +107,34 @@ Level::Level(int players)
         else if (i > FULLSIZE - ROW)m_board[i] = WALL;    // Last row wall
         else m_board[i] = CLEAR;
     }
-    add_food(5);
+    addFood(5);
 }
 
-int Level::get_tile(int idx)
+int Level::getTile(int idx)
 {
     return m_board[idx];
 }
 
-void Level::add_food(int num)
+void Level::addFood(int num)
 {
     for (int i = 0; i < num; i++)
     {
-        int j = 0;
-        while (m_board[j] != CLEAR)
-        {
-            j = randomizer(FULLSIZE);
-        }
+        int j = getEmptyTile();
+
         if (randomizer(100) < 10)
         {
             m_board[j] = randomizer(100) < 50 ? VALUEFOOD : FASTFOOD;
         }
         else m_board[j] = STDFOOD;
     }
+}
+
+int Level::getEmptyTile()
+{
+    int j = 0;
+    while (m_board[j] != CLEAR)
+    {
+        j = randomizer(FULLSIZE);
+    }
+    return j;
 }

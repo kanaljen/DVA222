@@ -17,7 +17,7 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 	GameObject* wall;
 	for (int i = 0; i<FULLSIZE; i++)
 	{
-		if (m_level.get_tile(i) == WALL)
+		if (m_level.getTile(i) == WALL)
 		{
 			m_levelObjects.push_back(new Wall);
 			wall = m_levelObjects.back();
@@ -38,7 +38,7 @@ void GamePlay::update()
 	GameObject* object;
 	for (int i = ROW; i<FULLSIZE - ROW; i++)
 	{
-		switch (m_level.get_tile(i))
+		switch (m_level.getTile(i))
 		{
 		case STDFOOD:
 			m_dynamicObjects.push_back(new StandardFood);
