@@ -27,17 +27,30 @@
 #define DOWN	3
 #define LEFT	4
 
+// SNAKE BEND ROTATION
+#define DOWNLEFT    1
+#define LEFTUP      2
+#define UPRIGHT     3
+#define RIGHTDOWN   4
+
 int randomizer(int max);
 
 using namespace sf;
 
 
 // Virtual block class of size BLOCKSIZExBLOCKSIZE
-class GameObject : public RectangleShape
+class GameObject : public Sprite
 {
 public:
+	Texture texture;
     GameObject();
     //virtual void collision(Snake* snake) = 0
+};
+
+class Background : public GameObject
+{
+public:
+	Background();
 };
 
 // Wall block class
@@ -75,12 +88,42 @@ public:
 
 class SnakeSegment : public GameObject
 {
+    const int m_player;
+    int m_position;
+    int m_rotation;
 public:
-	SnakeSegment(int player);
+	SnakeSegment(int player,int position, float rotation);
+	int getPosition();
+};
+
+class SnakeHead : public SnakeSegment
+{
+public:
+    SnakeHead(int player, int position, float rotation);
+};
+
+class SnakeTail : public SnakeSegment
+{
+public:
+    SnakeTail(int player, int position, float rotation);
+};
+
+class SnakeBend : public SnakeSegment
+{
+public:
+    SnakeBend(int player, int position, float rotation);
+};
+
+class SnakeStraight : public SnakeSegment
+{
+public:
+    SnakeStraight(int player, int position, float rotation);
 };
 
 class Snake
 {
+public:
+    Snake(int player);
 };
 
 
