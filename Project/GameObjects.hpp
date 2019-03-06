@@ -21,11 +21,11 @@
 #define SNAKE2		12
 #define SNAKE3		13
 
-// SNAKE DIRECTIONS
-#define UP		1
-#define RIGHT	2
-#define DOWN	3
-#define LEFT	4
+// DIRECTIONS
+#define UP		0
+#define RIGHT	1
+#define DOWN	2
+#define LEFT	3
 
 // SNAKE BEND ROTATION
 #define DOWNLEFT    1
