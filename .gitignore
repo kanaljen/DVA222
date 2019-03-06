@@ -1,1 +1,15 @@
-.DS_Store
+
+*
+
+
+!/Project/*.
+!/bobvsmapp/bobvsmapp/*.
+
+!*.gitignore
+!*.cpp
+!*.hpp
+!*.h
+!*.md
+!*.txt
+
+
