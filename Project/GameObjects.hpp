@@ -12,7 +12,7 @@
 #define FULLSIZE	int(pow(ROW,2))		// Total number of blocks, 20*20=400
 
 // BLOCKTYPES, for level array
-#define CLEAR		0
+#define EMPTY		0
 #define WALL		1
 #define STDFOOD		2
 #define VALUEFOOD	3
@@ -22,10 +22,10 @@
 #define SNAKE3		13
 
 // DIRECTIONS
-#define UP		0
-#define RIGHT	1
-#define DOWN	2
-#define LEFT	3
+#define UP		1
+#define RIGHT	2
+#define DOWN   -1
+#define LEFT   -2
 
 // SNAKE BEND ROTATION
 #define DOWNLEFT    1
@@ -89,35 +89,33 @@ public:
 class SnakeSegment : public GameObject
 {
     const int m_player;
-    int m_position;
     int m_rotation;
 public:
-	SnakeSegment(int player,int position, float rotation);
-	int getPosition();
+	SnakeSegment(int player, float rotation);
 };
 
 class SnakeHead : public SnakeSegment
 {
 public:
-    SnakeHead(int player, int position, float rotation);
+    SnakeHead(int player, float rotation);
 };
 
 class SnakeTail : public SnakeSegment
 {
 public:
-    SnakeTail(int player, int position, float rotation);
+    SnakeTail(int player, float rotation);
 };
 
 class SnakeBend : public SnakeSegment
 {
 public:
-    SnakeBend(int player, int position, float rotation);
+    SnakeBend(int player, float rotation);
 };
 
 class SnakeStraight : public SnakeSegment
 {
 public:
-    SnakeStraight(int player, int position, float rotation);
+    SnakeStraight(int player, float rotation);
 };
 
 class Level 
@@ -129,4 +127,7 @@ public:
 	int getTile(int idx);
 	void addFood(int num);
 	int getEmptyTile();
+	void setPlayerTile(int player,int tile);
+	void clearTile(int tile);
+	void d_printLevel();
 };

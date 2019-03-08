@@ -13,6 +13,7 @@
 #define PLAYTHREE		4
 #define TOGAMEMENU		5
 #define RESUMEGAME		6
+#define GAMEOVER		7
 #define TERMINATE		-1
 
 using namespace sf;

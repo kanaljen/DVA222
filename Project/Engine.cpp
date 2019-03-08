@@ -68,6 +68,11 @@ void Engine::makeTransition(int transition)
 		m_topmenu = new TopMenu(*this);
 		m_next_state = m_topmenu;
 		break;
+	case GAMEOVER:
+		delete m_gameplay;
+		m_topmenu = new TopMenu(*this);
+		m_next_state = m_topmenu;
+		break;
 	case PLAYONE:
 		delete m_topmenu;
 		m_gameplay = new GamePlay(*this, 1);

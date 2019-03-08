@@ -12,7 +12,7 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 	m_noplayers(noPlayers),
 	m_level(noPlayers)
 {
-
+	for(int i = 0;i < noPlayers;i++)m_snakes.push_back(new Snake(i+1,&m_level));
 	m_levelObjects.push_back(&background);
 	GameObject* wall;
 	for (int i = 0; i<FULLSIZE; i++)
@@ -24,13 +24,18 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 			wall->setPosition(getPosition(i));
 		}
 	}
+	for(int i = 0;i < 4;i++)m_input[i] = 0;
 }
 
 void GamePlay::update()
 {
 	// Push static level objects to renderQ
 	for (GameObject* wall : m_levelObjects)pushToRenderQ(wall);
-
+	// Update snakes
+	for(int i = 0;i < m_snakes.size();i++)
+	{
+		if(m_snakes[i]->isAlive())m_snakes[i]->update(m_input[i]);
+	}
 	// Clear object vector
 	m_dynamicObjects.clear();
 
@@ -61,10 +66,23 @@ void GamePlay::update()
 	}
 	// Push dynamic game objects to renderQ
 	for (GameObject* object : m_dynamicObjects)pushToRenderQ(object);
+	for(Snake* snake: m_snakes)
+	{
+		if(snake->isAlive())snake->draw(this);
+	}
+	//m_level.d_printLevel();
 }
 
 void GamePlay::handleInput(Event event)
 {
+	int alive = 0;
+	for(Snake* snake: m_snakes)
+	{
+		if(snake->isAlive())alive++;
+	}
+	if(alive == 0){
+		setNextState(GAMEOVER);
+	}
 	switch (event.type)
 	{
 		case Event::Closed:
