@@ -21,9 +21,9 @@ void Engine::start()
 		update();
 		draw();
 		elapsed = clock.getElapsedTime();
-		if (milliseconds(50) > elapsed - start)
+		if (milliseconds(300) > elapsed - start)
 		{
-			sleep(milliseconds(50) - elapsed);
+			sleep(milliseconds(300) - elapsed);
 		}
 		if(m_nextTransition != NOTRANSITION)makeTransition(m_nextTransition);
 		m_current_state = m_next_state;

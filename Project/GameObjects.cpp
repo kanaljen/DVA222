@@ -43,22 +43,33 @@ Food::Food(int value):
 ValuableFood::ValuableFood() :
 	Food(5)
 {
+    setColor(Color::Blue);
 }
 
 StandardFood::StandardFood():
 	Food(1)
 {
+
 }
 
 FastFood::FastFood() :
 	Food(0)
 {
+    setColor(Color::Green);
 }
 
 SnakeSegment::SnakeSegment(int player, float rotation):
     m_player(player),
     m_rotation(rotation)
 {
+    if(player == 2)setColor(Color::Green);
+    else if(player == 3)setColor(Color::Yellow);
+    rotate(m_rotation);
+    if (m_rotation==0)setOrigin(0,0);
+    else if (m_rotation==90)setOrigin(0,BLOCKSIZE);
+    else if(m_rotation==180)setOrigin(BLOCKSIZE,BLOCKSIZE);
+    else if(m_rotation==270)setOrigin(BLOCKSIZE,0);
+
 }
 
 SnakeHead::SnakeHead(int player, float rotation):
@@ -135,7 +146,7 @@ int Level::getEmptyTile()
 
 void Level::setPlayerTile(int player,int tile)
 {
-    if(m_board[tile] != EMPTY && WALL)
+    if(m_board[tile] != (EMPTY || WALL))
     {
         switch(player)
         {
@@ -157,4 +168,12 @@ void Level::setPlayerTile(int player,int tile)
 void Level::clearTile(int tile)
 {
     if(m_board[tile] != EMPTY && WALL)m_board[tile] = EMPTY;
+}
+
+void Level::d_printLevel() {
+    for(int i = 0;i < FULLSIZE;i++)
+    {
+        if(i%ROW == ROW-1)std::cout << m_board[i] << std::endl;
+        else std::cout << m_board[i];
+    }
 }

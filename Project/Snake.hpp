@@ -2,11 +2,16 @@
 #include <SFML/Graphics.hpp>
 #include <queue>
 #include <vector>
+#include <sstream>
 #include "GameObjects.hpp"
 #include "Engine.hpp"
+#include "States.hpp"
+
+class GamePlay;
 
 class Snake
 {
+    Font m_font;
 	const int m_player;
 	Level* m_level;
 	int m_lifetime;
@@ -21,11 +26,12 @@ class Snake
 public:
 	Snake(int player,Level* level);
 	void draw(GamePlay* state);
-	void update();
+	void update(int input);
 	bool isAlive();
 private:
 	void tryMove(int newpos);
-	void collision(int tiletype);
+	void collision(int tiletype, int newpos);
 	void move();
+	void updateText();
 };
 

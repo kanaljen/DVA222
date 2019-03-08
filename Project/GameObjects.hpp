@@ -129,4 +129,5 @@ public:
 	int getEmptyTile();
 	void setPlayerTile(int player,int tile);
 	void clearTile(int tile);
+	void d_printLevel();
 };

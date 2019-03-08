@@ -9,6 +9,7 @@
 
 using namespace sf;
 class Engine;
+class Snake;
 
 class GameState
 {
@@ -31,7 +32,7 @@ class GamePlay: public GameState
 	int m_input[4];
     std::vector<GameObject*> m_dynamicObjects;
     std::vector<GameObject*> m_levelObjects;
-    //std::vector<Snake*> m_snakes;
+    std::vector<Snake*> m_snakes;
 public:
 	GamePlay(Engine& engine,int noPlayers);
 	void update() override;
