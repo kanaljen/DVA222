@@ -103,28 +103,31 @@ void Snake::update(int input)
     m_lifetime++;
     if(m_poweruptime > 0)m_poweruptime--;
     if(m_poweruptime == 0)m_speed = 2;
-    int try_move = input;
-    if(try_move == 0)m_direction = m_direction;
-    else if(try_move == -m_direction)m_direction = m_direction;
-    else m_direction = try_move;
-    switch(m_direction)
+    if(m_lifetime%m_speed == 0)
     {
-        case UP:
-            tryMove(m_body[0]-ROW);
-            break;
-        case LEFT:
-            tryMove(m_body[0]-1);
-            break;
-        case DOWN:
-            tryMove(m_body[0]+ROW);
-            break;
-        case RIGHT:
-            tryMove(m_body[0]+1);
-            break;
-        default:
-            break;
+        int try_move = input;
+        if(try_move == 0)m_direction = m_direction;
+        else if(try_move == -m_direction)m_direction = m_direction;
+        else m_direction = try_move;
+        switch(m_direction)
+        {
+            case UP:
+                tryMove(m_body[0]-ROW);
+                break;
+            case LEFT:
+                tryMove(m_body[0]-1);
+                break;
+            case DOWN:
+                tryMove(m_body[0]+ROW);
+                break;
+            case RIGHT:
+                tryMove(m_body[0]+1);
+                break;
+            default:
+                break;
+        }
+        updateText();
     }
-    updateText();
 }
 
 bool Snake::isAlive()
@@ -177,6 +180,7 @@ void Snake::collision(int tiletype, int newpos) {
             m_speed = 1;
             m_poweruptime = 50;
             m_level->addFood(1);
+            move();
             break;
         default:
             move();

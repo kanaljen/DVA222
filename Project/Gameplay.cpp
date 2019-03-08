@@ -75,6 +75,14 @@ void GamePlay::update()
 
 void GamePlay::handleInput(Event event)
 {
+	int alive = 0;
+	for(Snake* snake: m_snakes)
+	{
+		if(snake->isAlive())alive++;
+	}
+	if(alive == 0){
+		setNextState(GAMEOVER);
+	}
 	switch (event.type)
 	{
 		case Event::Closed:

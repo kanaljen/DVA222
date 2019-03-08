@@ -21,9 +21,9 @@ void Engine::start()
 		update();
 		draw();
 		elapsed = clock.getElapsedTime();
-		if (milliseconds(300) > elapsed - start)
+		if (milliseconds(50) > elapsed - start)
 		{
-			sleep(milliseconds(300) - elapsed);
+			sleep(milliseconds(50) - elapsed);
 		}
 		if(m_nextTransition != NOTRANSITION)makeTransition(m_nextTransition);
 		m_current_state = m_next_state;
@@ -64,6 +64,11 @@ void Engine::makeTransition(int transition)
 	{
 	case BACKTOTOP:
 		delete m_gamemenu;
+		delete m_gameplay;
+		m_topmenu = new TopMenu(*this);
+		m_next_state = m_topmenu;
+		break;
+	case GAMEOVER:
 		delete m_gameplay;
 		m_topmenu = new TopMenu(*this);
 		m_next_state = m_topmenu;

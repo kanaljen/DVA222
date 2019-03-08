@@ -126,7 +126,7 @@ void Level::addFood(int num)
     {
         int j = getEmptyTile();
 
-        if (randomizer(100) < 10)
+        if (randomizer(100) < 49)
         {
             m_board[j] = randomizer(100) < 50 ? VALUEFOOD : FASTFOOD;
         }
