@@ -29,7 +29,7 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 
 void GamePlay::update()
 {
-	printf("NUMBERO OF SNAKES: %d \n", m_snakes.size());
+
 	// Push static level objects to renderQ
 	for (GameObject* wall : m_levelObjects)pushToRenderQ(wall);
 	// Update snakes
@@ -39,17 +39,16 @@ void GamePlay::update()
 			m_snakes[i]->update(m_input[i]);
 		else
 		{
-			m_snakes.erase(m_snakes.begin() + i);
+			delete m_snakes[i]; // should free memory to avoid memory leak?
+			m_snakes.erase(m_snakes.begin() + i); // removes pointer from array.
 			continue;
 		}
 
 		//int test = randomizer(3) % m_snakes.size();
 		if (m_snakes[i]->hasHitFastFood == true)
 		{
-			// select random  snake
-			
-			m_snakes[randomizer(3) % m_snakes.size()]->setPowerUp(1, 50); // set speed and powerup time
-			m_snakes[i]->hasHitFastFood = false;
+			m_snakes[randomizer(3) % m_snakes.size()]->setPowerUp(1, 50); // select random  snake and set speed and powerup time
+			m_snakes[i]->hasHitFastFood = false; // clear collision flag with fastfood
 		}
 	}
 	// Clear object vector
