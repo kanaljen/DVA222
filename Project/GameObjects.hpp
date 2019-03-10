@@ -6,7 +6,7 @@
 #include <ctime>
 
 // SIZECONSTANTS
-#define SIZE		1280					// Window width/height in pixels
+#define SIZE		900					// Window width/height in pixels
 #define BLOCKSIZE	64				// Width/height of one block in pixels
 #define ROW			int(SIZE/BLOCKSIZE)	// Size of one row/column
 #define FULLSIZE	int(pow(ROW,2))		// Total number of blocks, 20*20=400

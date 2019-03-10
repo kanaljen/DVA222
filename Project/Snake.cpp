@@ -8,7 +8,8 @@ Snake::Snake(int player,Level* level):
     m_lifetime(0),
     m_poweruptime(0),
     m_score(0),
-    m_speed(2)
+    m_speed(2),
+	hasHitFastFood(false)
 {
     if (!m_font.loadFromFile("fonts/arial.ttf"))
         throw std::invalid_argument("INVALID FONT!");
@@ -75,18 +76,19 @@ void Snake::draw(GamePlay* state)
             else m_blocks.push_back(new SnakeTail(m_player,0));
         }
         else {
-            if((m_body[i-1] - m_body[i] == ROW)and(m_body[i+1] - m_body[i] == -ROW))m_blocks.push_back(new SnakeStraight(m_player,0));
-            else if((m_body[i-1] - m_body[i] == -ROW)and(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeStraight(m_player,0));
-            else if((m_body[i-1] - m_body[i] == 1)and(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeStraight(m_player,90));
-            else if((m_body[i-1] - m_body[i] == -1)and(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeStraight(m_player,90));
-            else if((m_body[i-1] - m_body[i] == ROW)and(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeBend(m_player,0)); //
-            else if((m_body[i-1] - m_body[i] == ROW)and(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeBend(m_player,270));
-            else if((m_body[i-1] - m_body[i] == -ROW)and(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeBend(m_player,90));
-            else if((m_body[i-1] - m_body[i] == -ROW)and(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeBend(m_player,180));
-            else if((m_body[i-1] - m_body[i] == 1)and(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeBend(m_player,270));
-            else if((m_body[i-1] - m_body[i] == 1)and(m_body[i+1] - m_body[i] == -ROW))m_blocks.push_back(new SnakeBend(m_player,180));
-            else if((m_body[i-1] - m_body[i] == -1)and(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeBend(m_player,0)); //
-            else if((m_body[i-1] - m_body[i] == -1)and(m_body[i+1] - m_body[i] == -ROW))m_blocks.push_back(new SnakeBend(m_player,90));
+            if((m_body[i-1] - m_body[i] == ROW)&&(m_body[i+1] - m_body[i] == -ROW))
+				m_blocks.push_back(new SnakeStraight(m_player,0));
+            else if((m_body[i-1] - m_body[i] == -ROW)&&(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeStraight(m_player,0));
+            else if((m_body[i-1] - m_body[i] == 1)&&(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeStraight(m_player,90));
+            else if((m_body[i-1] - m_body[i] == -1)&&(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeStraight(m_player,90));
+            else if((m_body[i-1] - m_body[i] == ROW)&&(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeBend(m_player,0)); //
+            else if((m_body[i-1] - m_body[i] == ROW)&&(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeBend(m_player,270));
+            else if((m_body[i-1] - m_body[i] == -ROW)&&(m_body[i+1] - m_body[i] == -1))m_blocks.push_back(new SnakeBend(m_player,90));
+            else if((m_body[i-1] - m_body[i] == -ROW)&&(m_body[i+1] - m_body[i] == 1))m_blocks.push_back(new SnakeBend(m_player,180));
+            else if((m_body[i-1] - m_body[i] == 1)&&(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeBend(m_player,270));
+            else if((m_body[i-1] - m_body[i] == 1)&&(m_body[i+1] - m_body[i] == -ROW))m_blocks.push_back(new SnakeBend(m_player,180));
+            else if((m_body[i-1] - m_body[i] == -1)&&(m_body[i+1] - m_body[i] == ROW))m_blocks.push_back(new SnakeBend(m_player,0)); //
+            else if((m_body[i-1] - m_body[i] == -1)&&(m_body[i+1] - m_body[i] == -ROW))m_blocks.push_back(new SnakeBend(m_player,90));
         }
         segment = m_blocks.back();
         row = m_body[i]/ROW;
@@ -177,8 +179,9 @@ void Snake::collision(int tiletype, int newpos) {
             m_level->addFood(1);
             break;
         case FASTFOOD:
-            m_speed = 1;
-            m_poweruptime = 50;
+			hasHitFastFood = true;
+   /*       m_speed = 1;
+            m_poweruptime = 50;*/
             m_level->addFood(1);
             move();
             break;
@@ -254,5 +257,12 @@ void Snake::updateText()
         m_scoretext.setOrigin(textRect.left + textRect.width, 0);
         m_scoretext.setPosition(SIZE - BLOCKSIZE, 0);
     }
+}
+
+void Snake::setPowerUp(int speed, int poweruptime)
+{
+	m_speed = speed;
+	m_poweruptime = poweruptime;
+
 }
 
