@@ -12,10 +12,10 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 	m_noplayers(noPlayers),
 	m_level(noPlayers)
 {
-	for(int i = 0;i < noPlayers;i++)m_snakes.push_back(new Snake(i+1,&m_level));
+	for (int i = 0; i < noPlayers; i++)m_snakes.push_back(new Snake(i + 1, &m_level));
 	m_levelObjects.push_back(&background);
 	GameObject* wall;
-	for (int i = 0; i<FULLSIZE; i++)
+	for (int i = 0; i < FULLSIZE; i++)
 	{
 		if (m_level.getTile(i) == WALL)
 		{
@@ -24,24 +24,39 @@ GamePlay::GamePlay(Engine& engine, int noPlayers) :
 			wall->setPosition(getPosition(i));
 		}
 	}
-	for(int i = 0;i < 4;i++)m_input[i] = 0;
+	for (int i = 0; i < 4; i++)m_input[i] = 0;
 }
 
 void GamePlay::update()
 {
+
 	// Push static level objects to renderQ
 	for (GameObject* wall : m_levelObjects)pushToRenderQ(wall);
 	// Update snakes
-	for(int i = 0;i < m_snakes.size();i++)
+	for (int i = 0; i < m_snakes.size(); i++)
 	{
-		if(m_snakes[i]->isAlive())m_snakes[i]->update(m_input[i]);
+		if (m_snakes[i]->isAlive())
+			m_snakes[i]->update(m_input[i]);
+		else
+		{
+			delete m_snakes[i]; // should free memory to avoid memory leak?
+			m_snakes.erase(m_snakes.begin() + i); // removes pointer from array.
+			continue;
+		}
+
+		//int test = randomizer(3) % m_snakes.size();
+		if (m_snakes[i]->hasHitFastFood == true)
+		{
+			m_snakes[randomizer(3) % m_snakes.size()]->setPowerUp(1, 50); // select random  snake and set speed and powerup time
+			m_snakes[i]->hasHitFastFood = false; // clear collision flag with fastfood
+		}
 	}
 	// Clear object vector
 	m_dynamicObjects.clear();
 
 	// Add food to object vector
 	GameObject* object;
-	for (int i = ROW; i<FULLSIZE - ROW; i++)
+	for (int i = ROW; i < FULLSIZE - ROW; i++)
 	{
 		switch (m_level.getTile(i))
 		{
@@ -66,9 +81,9 @@ void GamePlay::update()
 	}
 	// Push dynamic game objects to renderQ
 	for (GameObject* object : m_dynamicObjects)pushToRenderQ(object);
-	for(Snake* snake: m_snakes)
+	for (Snake* snake : m_snakes)
 	{
-		if(snake->isAlive())snake->draw(this);
+		if (snake->isAlive())snake->draw(this);
 	}
 	//m_level.d_printLevel();
 }
@@ -76,23 +91,23 @@ void GamePlay::update()
 void GamePlay::handleInput(Event event)
 {
 	int alive = 0;
-	for(Snake* snake: m_snakes)
+	for (Snake* snake : m_snakes)
 	{
-		if(snake->isAlive())alive++;
+		if (snake->isAlive())alive++;
 	}
-	if(alive == 0){
+	if (alive == 0) {
 		setNextState(GAMEOVER);
 	}
 	switch (event.type)
 	{
-		case Event::Closed:
-			setNextState(TERMINATE);
-			break;
-		case Event::KeyPressed:
-			handleKeys(event.key.code);
-			break;
-		default:
-			break;
+	case Event::Closed:
+		setNextState(TERMINATE);
+		break;
+	case Event::KeyPressed:
+		handleKeys(event.key.code);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -149,7 +164,7 @@ void GamePlay::handleKeys(int key)
 
 void GamePlay::updateSnakes()
 {
-	for (int i = 0; i < m_noplayers; i++) 
+	for (int i = 0; i < m_noplayers; i++)
 	{
 		// snake.trymove()
 		// snake.handlecolosion()
@@ -161,5 +176,5 @@ void GamePlay::updateSnakes()
 void GamePlay::drawSnakes()
 {
 
-    
+
 }

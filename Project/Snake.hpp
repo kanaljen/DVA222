@@ -15,6 +15,7 @@ class Snake
 	const int m_player;
 	Level* m_level;
 	int m_lifetime;
+
 	int m_speed;
 	int m_poweruptime;
 	int m_direction;
@@ -24,10 +25,12 @@ class Snake
 	int m_score;
 	Text m_scoretext;
 public:
+	bool hasHitFastFood;
 	Snake(int player,Level* level);
 	void draw(GamePlay* state);
 	void update(int input);
 	bool isAlive();
+	void setPowerUp(int speed, int poweruptime);
 private:
 	void tryMove(int newpos);
 	void collision(int tiletype, int newpos);
