@@ -29,6 +29,7 @@ public:
 	Snake(int player,Level* level);
 	void draw(GamePlay* state);
 	void update(int input);
+	int whatPlayer();
 	bool isAlive();
 	void setPowerUp(int speed, int poweruptime);
 private:

@@ -54,6 +54,11 @@ Snake::Snake(int player,Level* level):
     m_alive = true;
 }
 
+int Snake::whatPlayer()
+{
+	return m_player -1; // THIS IS A DUCT TAPE SOLUTION, IT WILL RETURN BY INDEX THE PLAYER, NOT ACTUAL INT! Player 1 = 0, Player 2 = 1, etc
+}
+
 void Snake::draw(GamePlay* state)
 {
     SnakeSegment* segment;

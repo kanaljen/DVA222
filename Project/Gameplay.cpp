@@ -36,7 +36,7 @@ void GamePlay::update()
 	for (int i = 0; i < m_snakes.size(); i++)
 	{
 		if (m_snakes[i]->isAlive())
-			m_snakes[i]->update(m_input[i]);
+			m_snakes[i]->update(m_input[m_snakes[i]->whatPlayer()]);
 		else
 		{
 			delete m_snakes[i]; // should free memory to avoid memory leak?
